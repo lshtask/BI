@@ -1,6 +1,6 @@
 <template>
   <div class="fotter">
-    <a href="">
+    <a target="_blank" href="https://github.com/lshtask/BI">
       <span>Github</span>
       <GithubOutlined spin />
     </a>
