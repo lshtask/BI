@@ -1,6 +1,9 @@
 <template>
   <div class="container_main">
-    <h1 class="container_head">lishuoBI</h1>
+    <h1 class="container_head">
+      <img src="../../assets/logo.svg" alt="">
+      lishuoBI
+    </h1>
     <p>账号密码登录</p>
     <a-form :model="formState" name="normal_login" class="login-form" @finish="onFinish">
       <a-form-item name="userAccount" :rules="[{ required: true, message: '请输入用户名' }]">
@@ -22,7 +25,7 @@
         <a-button type="primary" html-type="submit" class="container_form_button">登录</a-button>
       </a-form-item>
     </a-form>
-    <a-button type="link" class="to_register" @click="handleClick">去注册>></a-button>
+    <a-button type="link" class="to_register" @click="handleClick">没有账号？去注册>></a-button>
   </div>
 </template>
 
@@ -49,14 +52,9 @@ const formState = reactive<FormState>({
   userPassword: '',
 });
 const onFinish = async (values: any) => {
-  try {
-    await fetchLogin(values)
-  } catch (error) {
-    localStorage.setItem('token', error?.data?.id)
-    router.push('/analyse')
-
-  }
-
+  const { data } = await fetchLogin(values)
+  localStorage.setItem('token', data?.id)
+  router.push('/analyse')
 
 
 };
@@ -80,6 +78,12 @@ const handleClick = () => {
   // background: #0f71e2;
   border-radius: 4px;
   margin: 0 auto;
+}
+
+.container_head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #components-form-demo-normal-login .login-form {

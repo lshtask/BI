@@ -23,7 +23,7 @@ import { GithubOutlined } from '@ant-design/icons-vue';
 <style scoped lang="less">
 .fotter {
   width: 100%;
-  margin-top: 120px;
+  margin-top: 90px;
   text-align: center;
 
   div {

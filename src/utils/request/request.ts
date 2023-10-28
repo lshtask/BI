@@ -10,8 +10,7 @@ request.interceptors.request.use((config: any) => {
       ...config.headers,
       ContentType: 'application/json',
       Accept: 'application/json',
-      Authorization:
-        'Bearer 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',
+      Authorization: 'Bearer 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',
     };
   } catch (error) {}
   return config;
@@ -19,17 +18,13 @@ request.interceptors.request.use((config: any) => {
 
 request.interceptors.response.use(
   (response: AxiosResponse): AxiosResponse => {
-
-    if (
-      response.data.code !== 0 &&
-      response.request.responseURL !==
-        'https://api.openai.com/v1/chat/completions'
-    ) {
+    if (response.data.code !== 0 && response.data.message) {
       message.error(response.data.message);
-      return response;
+    } else {
+      response.data.message && message.success(response.data.message);
     }
-    if (response.status === 200 && response.data.code === 0) {
-      message.success(response.data.message);
+
+    if (response.status === 200) {
       return response;
     }
   },

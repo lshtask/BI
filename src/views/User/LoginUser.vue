@@ -37,7 +37,7 @@ const handleRegisterClick = () => {
 
 <style lang="less" scoped>
 .box {
-
+position: relative;
   &_register,
   &_login {
     transform-style: preserve-3d; //表示所有子元素在3D空间中呈现
@@ -49,7 +49,6 @@ const handleRegisterClick = () => {
 
   &_login {
     height: 500px;
-    margin-top: 100px;
     transform: rotateY(180deg);
     visibility: hidden; //元素不可见，但占据空间
     position: absolute;
@@ -63,20 +62,13 @@ const handleRegisterClick = () => {
 .container {
   width: 100vw;
   height: 100vh;
-  padding-top: 100px;
+  padding-top: 80px;
   background-image: url(https://fanyiapp.cdn.bcebos.com/cms/image/eab6731f7ef5c2b5ddef8ea51c349d8e.jpg);
-
-
-  &_head {
-    text-align: center;
-  }
-
-  
 
   &_main {
     
     width: 500px;
-    height: 500px;
+    height: 600px;
     padding: 50px;
     box-shadow: 0 24px 39px 0 rgba(0, 100, 255, 0.13);
     border-radius: 20px;
@@ -94,11 +86,9 @@ const handleRegisterClick = () => {
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.3);
       border-radius: 20px;
-      /* 半透明的白色背景 */
       pointer-events: none;
-      /* 防止伪元素干扰鼠标事件 */
     }
 
     // p {

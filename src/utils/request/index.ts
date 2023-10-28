@@ -39,7 +39,8 @@ function http<T = any>({
       res.data.status === 'Success' ||
       typeof res.data === 'string' ||
       res.data?.code == 200 ||
-      res.data?.code == 1
+      res.data?.code == 1 ||
+      res.data?.code == 0
     )
       return res.data;
 

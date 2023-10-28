@@ -1,6 +1,8 @@
 <template>
   <div class="container_main">
-    <h1 class="container_head">lishuoBI</h1>
+    <h1 class="container_head">
+      <img src="../../assets/logo.svg" alt="">
+      lishuoBI</h1>
     <p>注册</p>
     <a-form :model="formState" name="normal_login" class="login-form" @finish="onFinish">
       <a-form-item name="userAccount" :rules="[{ required: true, message: '请输入用户名' }]">
@@ -32,7 +34,7 @@
 
       </a-form-item>
     </a-form>
-    <a-button type="link" class="to_login" @click="handleRegisterClick">去登录>></a-button>
+    <a-button type="link" class="to_login" @click="handleRegisterClick">已有账号，去登录>></a-button>
   </div>
 </template>
 
@@ -59,6 +61,7 @@ const formState = reactive<FormState>({
 });
 const onFinish = async (values: any) => {
   await fetchRegister(values)
+  emit('onrote')
 };
 
 const handleRegisterClick = () => {
@@ -87,7 +90,11 @@ const handleRegisterClick = () => {
   margin-top: 40px;
   text-align: right;
 }
-
+.container_head {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 .container_form_button {
   display: flex;
   flex-direction: column;
