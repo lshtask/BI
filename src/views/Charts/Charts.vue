@@ -6,7 +6,6 @@
     <div class="main">
       <Card />
       <Card />
-      <Card />
     </div>
   </div>
 </template>

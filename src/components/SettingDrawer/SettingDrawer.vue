@@ -102,6 +102,7 @@
 <script setup lang="ts">
 import { SettingOutlined, CloseOutlined } from '@ant-design/icons-vue';
 import type { CheckedType } from 'ant-design-vue/es/switch';
+import { ref } from 'vue';
 
 type ConfType = 'layout' | 'fixedHeader' | 'fixSiderbar' | string;
 

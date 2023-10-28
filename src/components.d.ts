@@ -6,6 +6,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AAvatar: typeof import('ant-design-vue/es')['Avatar']
     ABadge: typeof import('ant-design-vue/es')['Badge']
+    About: typeof import('./components/common/Setting/About.vue')['default']
     AButton: typeof import('ant-design-vue/es')['Button']
     ACard: typeof import('ant-design-vue/es')['Card']
     ACol: typeof import('ant-design-vue/es')['Col']
@@ -20,14 +21,24 @@ declare module 'vue' {
     AInputSearch: typeof import('ant-design-vue/es')['InputSearch']
     AMenu: typeof import('ant-design-vue/es')['Menu']
     AMenuItem: typeof import('ant-design-vue/es')['MenuItem']
+    AModal: typeof import('ant-design-vue/es')['Modal']
     ARadio: typeof import('ant-design-vue/es')['Radio']
     ARadioGroup: typeof import('ant-design-vue/es')['RadioGroup']
     ARow: typeof import('ant-design-vue/es')['Row']
     ASpace: typeof import('ant-design-vue/es')['Space']
     ASwitch: typeof import('ant-design-vue/es')['Switch']
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
+    Button: typeof import('./components/common/HoverButton/Button.vue')['default']
+    General: typeof import('./components/common/Setting/General.vue')['default']
+    GithubSite: typeof import('./components/custom/GithubSite.vue')['default']
+    HoverButton: typeof import('./components/common/HoverButton/index.vue')['default']
+    PersonalSetting: typeof import('./components/PersonalSetting/PersonalSetting.vue')['default']
+    PromptStore: typeof import('./components/common/PromptStore/index.vue')['default']
     RightContent: typeof import('./components/RightContent/RightContent.vue')['default']
+    Setting: typeof import('./components/common/Setting/index.vue')['default']
     SettingDrawer: typeof import('./components/SettingDrawer/SettingDrawer.vue')['default']
+    SvgIcon: typeof import('./components/common/SvgIcon/index.vue')['default']
+    UserAvatar: typeof import('./components/common/UserAvatar/index.vue')['default']
   }
 }
 
