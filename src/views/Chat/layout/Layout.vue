@@ -34,13 +34,6 @@ const getContainerClass = computed(() => {
 
 
 
-window.addEventListener('message', function (e) {
-	const msg = e.data.trim()
-	const res = JSON.parse(msg || '{}')
-	if (res.keyworld?.trim()) {
-		router.push('/supconSearch')
-	}
-})
 
 </script>
 

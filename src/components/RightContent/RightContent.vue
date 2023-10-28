@@ -17,27 +17,30 @@
               <template #icon>
                 <LogoutOutlined />
               </template>
-              <span>退出登录</span>
+              <span @click="handleLogoutClick">退出登录</span>
             </a-menu-item>
           </a-menu>
         </template>
         <a-avatar shape="square" size="small">
           <template #icon>
-            <UserOutlined />
+            <!-- <UserOutlined /> -->
+            <img src="../../assets/hmx.JPG" alt="">
           </template>
           {{ currentUser.nickname }}
         </a-avatar>
       </a-dropdown>
     </a-space>
-    <PersonalSetting :visible="settingState"/>
+    <PersonalSetting :open="settingState"/>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
-import PersonalSetting from "@/components/PersonalSetting/PersonalSetting.vue";
+import { useRouter } from "vue-router";
 import { UserOutlined, SettingOutlined, LogoutOutlined, BgColorsOutlined } from '@ant-design/icons-vue';
+import PersonalSetting from "@/components/PersonalSetting/PersonalSetting.vue";
 import { apply, randomTheme } from '../../hooks/useTheme';
+import router from "@/router";
 
 export type CurrentUser = {
   nickname: string;
@@ -49,14 +52,20 @@ defineProps<{
 }>();
 
 const settingState = ref<boolean>(false)
-
+const route = useRouter()
 const handleClick = () => {
   apply(randomTheme());
 };
 
 const handleSettingClick = () => {
-  
   settingState.value = true
-  
+
+}
+const handleLogoutClick = () => {
+  localStorage.clear()
+  setTimeout(() => {
+    route.replace('/login')
+  }, 100)
+
 }
 </script>

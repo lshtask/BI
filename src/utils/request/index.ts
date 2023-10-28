@@ -1,18 +1,9 @@
-/*
- * @Descripttion:
- * @version:
- * @Author: 苏
- * @email: 1373842098@qq.com
- * @Date: 2023-03-08 17:15:44
- * @LastEditors: sj
- * @LastEditTime: 2023-03-16 19:38:33
- */
 import type {
   AxiosProgressEvent,
   AxiosResponse,
   GenericAbortSignal,
 } from 'axios';
-import request from '.';
+import request from './request';
 
 export interface HttpOption {
   url: string;

@@ -13,7 +13,7 @@ import { visualizer } from 'rollup-plugin-visualizer';
 // https://vitejs.dev/config/
 export default defineConfig(() => {
   const lifecycle = process.env.npm_lifecycle_event;
-
+  
   return {
     plugins: [
       vue(),
@@ -58,6 +58,19 @@ export default defineConfig(() => {
             // '@primary-color': '#eb2f96', // 全局主色
           },
         },
+      },
+    },
+    server: {
+      host: '0.0.0.0',
+      port: 3002,
+      open: false,
+      proxy: {
+				'/api': {
+          target: 'http://8.130.65.93:8001',
+          changeOrigin: true, // 允许跨域
+          // rewrite: path => path.replace('/api/', '/'),
+        },
+				
       },
     },
     optimizeDeps: {

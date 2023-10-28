@@ -1,12 +1,3 @@
-<!--
- * @Descripttion:
- * @version:
- * @Author: 苏
- * @email: 1373842098@qq.com
- * @Date: 2023-03-16 19:36:08
- * @LastEditors: sj
- * @LastEditTime: 2023-03-23 16:46:16
--->
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import MarkdownIt from 'markdown-it'
@@ -60,6 +51,7 @@ const text = computed(() => {
   const value = props.text ?? ''
   if (!props.inversion)
     return mdi.render(value)
+
   return value
 })
 
@@ -73,7 +65,7 @@ defineExpose({ textRef })
 <template>
   <div class="text-black" :class="wrapClass">
     <template v-if="loading">
-      <span class="dark:text-white w-[4px] h-[20px] block animate-blink" />
+      <span class="dark:text-white w-[4px] h-[20px] block animate-blink animate" />
     </template>
     <template v-else>
       <div ref="textRef" class="leading-relaxed break-words">
@@ -86,5 +78,4 @@ defineExpose({ textRef })
 
 <style lang="less">
 @import url(./style.less);
-
 </style>

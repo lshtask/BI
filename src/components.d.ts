@@ -27,6 +27,7 @@ declare module 'vue' {
     ASpace: typeof import('ant-design-vue/es')['Space']
     ASwitch: typeof import('ant-design-vue/es')['Switch']
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
+    AUpload: typeof import('ant-design-vue/es')['Upload']
     Button: typeof import('./components/common/HoverButton/Button.vue')['default']
     General: typeof import('./components/common/Setting/General.vue')['default']
     GithubSite: typeof import('./components/custom/GithubSite.vue')['default']

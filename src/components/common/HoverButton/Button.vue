@@ -11,10 +11,16 @@ function handleClick() {
 </script>
 
 <template>
-  <button
-    class="flex items-center justify-center w-10 h-10 transition rounded-full hover:bg-neutral-100 dark:hover:bg-[#414755]"
-    @click="handleClick"
-  >
+  <n-button type="tertiary" class="rounded-full" @click="handleClick">
     <slot />
-  </button>
+    </n-button>
+  
 </template>
+
+<style scoped >
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
+</style>

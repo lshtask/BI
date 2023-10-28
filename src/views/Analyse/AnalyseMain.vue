@@ -11,6 +11,8 @@
 <script lang="ts" setup>
 import LeftAnalyse from './LeftAnalyse.vue';
 import RightAnalyse from './RightAnalyse.vue';
+
+
 </script>
 <style lang="less" scoped>
 .container {

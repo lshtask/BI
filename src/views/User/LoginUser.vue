@@ -1,60 +1,65 @@
 <template>
-  <div class="container">
-
-    <div class="container_main">
-      <h1 class="container_head">lishuoBI</h1>
-      <p>账号密码登录</p>
-      <a-form :model="formState" name="normal_login" class="login-form" @finish="onFinish" @finishFailed="onFinishFailed">
-        <a-form-item name="username" :rules="[{ required: true, message: 'Please input your username!' }]">
-          <a-input v-model:value="formState.username" style="width: 200">
-            <template #prefix>
-              <UserOutlined class="site-form-item-icon" />
-            </template>
-          </a-input>
-        </a-form-item>
-
-        <a-form-item name="password" :rules="[{ required: true, message: 'Please input your password!' }]">
-          <a-input-password v-model:value="formState.password">
-            <template #prefix>
-              <LockOutlined class="site-form-item-icon" />
-            </template>
-          </a-input-password>
-        </a-form-item>
-        <a-form-item class="container_form">
-          <a-button type="primary" html-type="submit" class="container_form_button">登录</a-button>
-        </a-form-item>
-      </a-form>
-
+  <div class="container" >
+    
+    <div class="box" :class="{ box_rolling: isRolling }">
+      <div class="box_register">
+        <Login @onrote="handleRegisterClick" />
+      </div>
+      <div class="box_login">
+        <Register @onrote="handleRegisterClick" />
+      </div>
     </div>
     <LoginFooter />
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
-import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
+import { reactive, ref } from 'vue';
+import { useRouter } from "vue-router";
 import LoginFooter from './LoginFooter.vue';
-interface FormState {
-  username: string;
-  password: string;
-  remember: boolean;
-}
-const formState = reactive<FormState>({
-  username: '',
-  password: '',
-  remember: true,
-});
-const onFinish = (values: any) => {
-  console.log('Success:', values);
-};
+import Login from './Login.vue';
+import Register from './Register.vue';
 
-const onFinishFailed = (errorInfo: any) => {
-  console.log('Failed:', errorInfo);
-};
+
+const isRolling = ref<boolean>(false)
+
+
+
+
+
+const handleRegisterClick = () => {
+
+  isRolling.value = !isRolling.value
+}
+
 
 </script>
 
 <style lang="less" scoped>
+.box {
+
+  &_register,
+  &_login {
+    transform-style: preserve-3d; //表示所有子元素在3D空间中呈现
+    backface-visibility: hidden; //元素背面向屏幕时是否可见
+    transition-duration: 0.5s; // 0.5秒内反转
+    transition-timing-function: "ease-in";
+    
+  }
+
+  &_login {
+    height: 500px;
+    margin-top: 100px;
+    transform: rotateY(180deg);
+    visibility: hidden; //元素不可见，但占据空间
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+  }
+}
+
 .container {
   width: 100vw;
   height: 100vh;
@@ -66,23 +71,10 @@ const onFinishFailed = (errorInfo: any) => {
     text-align: center;
   }
 
-  &_form {
-    &_button {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 300px;
-      height: 40px;
-      margin: 0 auto;
-      padding: 5px 12px;
-      background: #0f71e2;
-      border-radius: 4px;
-      margin-top: 20px;
-    }
-  }
+  
 
   &_main {
+    
     width: 500px;
     height: 500px;
     padding: 50px;
@@ -109,12 +101,26 @@ const onFinishFailed = (errorInfo: any) => {
       /* 防止伪元素干扰鼠标事件 */
     }
 
-    p {
-      text-align: center;
-      height: 46px;
-      font-size: 16px;
+    // p {
+    //   text-align: center;
+    //   height: 46px;
+    //   font-size: 16px;
 
-    }
+    // }
+  }
+}
+
+.box_rolling {
+
+  .box_register {
+    transform: rotateY(180deg); //反转180度
+    visibility: hidden;
+  }
+
+  .box_login {
+    height: 500px;
+    transform: rotateY(360deg); //反转360度
+    visibility: visible;
   }
 }
 

@@ -1,22 +1,18 @@
 <template>
-  <a-drawer :open="visible" class="custom-class" root-class-name="root-class-name" :root-style="{ color: 'blue' }"
-    style="color: red" title="Basic Drawer" placement="right" @after-open-change="afterOpenChange">
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-    <p>Some contents...</p>
-  </a-drawer>
+  
+  <n-drawer :show="open" :width="700">
+    <n-drawer-content title="个人设置" closable>
+      
+    </n-drawer-content>
+  </n-drawer>
 </template>
 
 <script setup lang="ts">
-import { watch } from "vue";
-interface Props {
-  visible: boolean
+import { defineComponent, ref } from 'vue'
+interface Iprops {
+open: boolean
 }
-const props = defineProps<Props>()
-console.log('====================================');
-console.log(props?.visible);
-console.log('====================================');
+
+defineProps<Iprops>()
 
 </script>
-
-<style scoped lang="less"></style>

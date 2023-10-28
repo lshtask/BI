@@ -4,8 +4,20 @@ import 'ant-design-vue/dist/antd.variable.min.css';
 import { createApp } from 'vue';
 import { ConfigProvider } from 'ant-design-vue';
 import ProLayout, { PageContainer } from '@ant-design-vue/pro-layout';
-import NaiveUI from "naive-ui";
-import router from './router';
+import NaiveUI from 'naive-ui';
+import { setupRouter } from './router';
 import App from './App.vue';
 
-createApp(App).use(router).use(ConfigProvider).use(NaiveUI).use(ProLayout).use(PageContainer).mount('#app');
+async function bootstrap() {
+  const app = createApp(App);
+  await setupRouter(app);
+
+  app
+    .use(ConfigProvider)
+    .use(NaiveUI)
+    .use(ProLayout)
+    .use(PageContainer)
+    .mount('#app');
+}
+
+bootstrap();

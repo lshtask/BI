@@ -6,13 +6,18 @@
         <a-textarea v-model:value="formState.pass" placeholder="请输入你的需求分析" allow-clear />
       </a-form-item>
       <a-form-item has-feedback label="图表名称" name="checkPass">
-        <a-input v-model:value="formState.checkPass" type="password" autocomplete="off" />
+        <a-input v-model:value="formState.checkPass" placeholder="请输入图表名称" type="password" autocomplete="off" />
       </a-form-item>
       <a-form-item has-feedback label="图表类型" name="age">
         <a-input v-model:value="formState.checkPass" type="password" autocomplete="off" />
       </a-form-item>
-      <a-form-item has-feedback label="原始类型" name="age">
-        <a-input v-model:value="formState.checkPass" type="password" autocomplete="off" />
+      <a-form-item has-feedback label="原始数据" name="age">
+        <a-upload :file-list="fileList" :before-upload="beforeUpload" @remove="handleRemove">
+          <a-button>
+            <upload-outlined></upload-outlined>
+            上传CSV文件
+          </a-button>
+        </a-upload>
       </a-form-item>
       <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
         <a-button type="primary" html-type="submit">提交</a-button>
@@ -25,8 +30,11 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
+import { UploadOutlined } from '@ant-design/icons-vue';
 import type { Rule } from 'ant-design-vue/es/form';
 import type { FormInstance } from 'ant-design-vue';
+import type { UploadProps } from 'ant-design-vue';
+
 interface FormState {
   pass: string;
   checkPass: string;
@@ -38,6 +46,10 @@ const formState = reactive<FormState>({
   checkPass: '',
   age: undefined,
 });
+const fileList = ref<UploadProps['fileList']>([]);
+const uploading = ref<boolean>(false);
+
+
 const checkAge = async (_rule: Rule, value: number) => {
   if (!value) {
     return Promise.reject('Please input the age');
@@ -81,15 +93,34 @@ const layout = {
   wrapperCol: { span: 14 },
 };
 const handleFinish = (values: FormState) => {
-  console.log(values, formState);
 };
 const handleFinishFailed = errors => {
-  console.log(errors);
 };
 const resetForm = () => {
   formRef.value.resetFields();
 };
 const handleValidate = (...args) => {
-  console.log(args);
+};
+
+const handleRemove: UploadProps['onRemove'] = file => {
+  const index = fileList.value.indexOf(file);
+  const newFileList = fileList.value.slice();
+  newFileList.splice(index, 1);
+  fileList.value = newFileList;
+};
+
+const beforeUpload: UploadProps['beforeUpload'] = file => {
+  fileList.value = [...(fileList.value || []), file];
+  return false;
+};
+
+const handleUpload = () => {
+  const formData = new FormData();
+  fileList.value.forEach((file: UploadProps['fileList'][number]) => {
+    formData.append('files[]', file as any);
+  });
+  uploading.value = true;
+
+
 };
 </script>

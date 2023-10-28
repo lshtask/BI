@@ -7,9 +7,7 @@ import { ref, onMounted } from 'vue';
 import * as echarts from 'echarts';
 const chatRef = ref();
 onMounted(() => {
-  console.log('====================================');
-  console.log(chatRef.value);
-  console.log('====================================');
+  
   const myChart = echarts.init(chatRef.value);
   let option;
   option = {

@@ -14,6 +14,7 @@ import { useBasicLayout } from '@/hooks/useBasicLayout';
 import { useChatStore, usePromptStore } from '@/store';
 import { fetchChatAPIProcess } from '@/api';
 import { t } from '@/locales';
+import { message, Modal } from 'ant-design-vue';
 
 let controller = new AbortController()
 
@@ -125,25 +126,31 @@ async function onConversation(againId = 0) {
 	try {
 		let lastText = ''
 		const fetchChatAPIOnce = async () => {
+
 			await fetchChatAPIProcess<Chat.ConversationResponse>({
 				prompt: message,
 				options,
 				signal: controller.signal,
 				onDownloadProgress: ({ event }) => {
+
 					const xhr = event.target
+
 					const { responseText } = xhr
-					const lastIndex = responseText.lastIndexOf('\n')
-					let chunk = responseText
+					const lastIndex = responseText.lastIndexOf(' ')
+
+					let chunk: string = ''
 					if (lastIndex !== -1)
-						chunk = responseText.substring(lastIndex)
+						chunk = JSON.parse(responseText.substring(lastIndex).includes('DONE') ? null : responseText.substring(lastIndex))?.choices[0].delta.content
+					lastText = lastText + (chunk ?? '')
+
+					const data = { conversationId: '', id: '' }
 					try {
-						const data = JSON.parse(chunk)
 						updateChat(
 							id,
 							dataSources.value.length - 1,
 							{
 								dateTime: new Date().toLocaleString(),
-								text: lastText + data.text ?? '',
+								text: lastText,
 								inversion: false,
 								error: false,
 								loading: false,
@@ -351,15 +358,11 @@ async function onRegenerate(index: number) {
 function handleExport() {
 	if (loading.value)
 		return
-
-	const d = dialog.warning({
-		title: t('chat.exportImage'),
-		content: t('chat.exportImageConfirm'),
-		positiveText: t('common.yes'),
-		negativeText: t('common.no'),
-		onPositiveClick: async () => {
+	Modal.confirm({
+		title: '你想要下载记录吗？',
+		onOk: async () => {
 			try {
-				d.loading = true
+				// d.loading = true
 				const ele = document.getElementById('image-wrapper')
 				const canvas = await html2canvas(ele as HTMLDivElement, {
 					useCORS: true,
@@ -376,48 +379,54 @@ function handleExport() {
 				tempLink.click()
 				document.body.removeChild(tempLink)
 				window.URL.revokeObjectURL(imgUrl)
-				d.loading = false
-				ms.success(t('chat.exportSuccess'))
+				message.success(t('chat.exportSuccess'))
 				Promise.resolve()
 			}
 			catch (error: any) {
-				ms.error(t('chat.exportFailed'))
+				message.error(t('chat.exportFailed'))
 			}
 			finally {
-				d.loading = false
+				// d.loading = false
 			}
 		},
 	})
+
 }
 
 function handleDelete(index: number) {
-	if (loading.value)
-		return
+	if (loading.value) return
 
-	dialog.warning({
-		title: t('chat.deleteMessage'),
-		content: t('chat.deleteMessageConfirm'),
-		positiveText: t('common.yes'),
-		negativeText: t('common.no'),
-		onPositiveClick: () => {
-			chatStore.deleteChatByUuid(+uuid, index)
-		},
+	Modal.confirm({
+		title: '你确定要删除这条记录吗？',
+		onOk: () => chatStore.deleteChatByUuid(+uuid, index)
 	})
+
+
+	// dialog.warning({
+	// 	title: t('chat.deleteMessage'),
+	// 	content: t('chat.deleteMessageConfirm'),
+	// 	positiveText: t('common.yes'),
+	// 	negativeText: t('common.no'),
+	// 	onPositiveClick: () => {
+	// 	},
+	// })
 }
 
 function handleClear() {
-	if (loading.value)
-		return
+	if (loading.value) return
 
-	dialog.warning({
-		title: t('chat.clearChat'),
-		content: t('chat.clearChatConfirm'),
-		positiveText: t('common.yes'),
-		negativeText: t('common.no'),
-		onPositiveClick: () => {
-			chatStore.clearChatByUuid(+uuid)
-		},
+	Modal.confirm({
+		title: '你确定要清空历史记录吗？',
+		onOk: () => chatStore.clearChatByUuid(+uuid)
 	})
+	// dialog.warning({
+	// 	title: t('chat.clearChat'),
+	// 	content: t('chat.clearChatConfirm'),
+	// 	positiveText: t('common.yes'),
+	// 	negativeText: t('common.no'),
+	// 	onPositiveClick: () => {
+	// 	},
+	// })
 }
 
 function handleEnter(event: KeyboardEvent) {
@@ -499,7 +508,7 @@ onUnmounted(() => {
 			<div id="scrollRef" ref="scrollRef">
 				<div id="image-wrapper" class="center">
 					<template v-if="!dataSources.length">
-						<div>
+						<div class="mainContainer_header">
 							<SvgIcon icon="ri:bubble-chart-fill" class="mr-2 text-3xl" />
 							<span>欢迎使用系统集成ChatGPT!</span>
 						</div>
@@ -536,11 +545,11 @@ onUnmounted(() => {
 							<SvgIcon icon="ri:download-2-line" />
 						</span>
 					</HoverButton>
-					<HoverButton v-if="!isMobile" @click="toggleUsingContext">
+					<!-- <HoverButton v-if="!isMobile" @click="toggleUsingContext">
 						<span class="text-xl" :class="{ 'text-[#4b9e5f]': usingContext, 'text-[#a8071a]': !usingContext }">
 							<SvgIcon icon="ri:chat-history-line" />
 						</span>
-					</HoverButton>
+					</HoverButton> -->
 					<NAutoComplete v-model:value="prompt" :options="searchOptions" :render-label="renderOption">
 						<template #default="{ handleInput, handleBlur, handleFocus }">
 							<NInput v-model:value="prompt" type="textarea" :placeholder="placeholder"
@@ -569,18 +578,25 @@ onUnmounted(() => {
 	width: 100%;
 	height: calc(100vh - 50px);
 	background: white;
-	padding: 1.5rem;
+	padding: 2rem;
+	background-image: url('../../assets/back.png');
 
 }
 
 
 
 .mainContainer {
-	height: 95%;
-	// display: flex;
-	// justify-content: center;
+	height: 90%;
+	margin-bottom: 20px;
+
 	overflow: scroll;
 
+	&_header {
+		width: 300px;
+		margin: 0 auto;
+		font-size: 20px;
+		color: rgb(203, 203, 203);
+	}
 }
 
 .fotter {
@@ -629,5 +645,66 @@ onUnmounted(() => {
 
 .m-auto {
 	margin: auto;
+}
+
+.justify-center {
+	justify-content: center;
+}
+
+.flex {
+	display: flex;
+}
+
+.left-0 {
+	left: 0px;
+}
+
+.bottom-0 {
+	bottom: 0px;
+}
+
+.sticky {
+	position: sticky;
+}
+
+.transition {
+	transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+	transition-duration: 150ms;
+}
+
+.rounded-full {
+	border-radius: 9999px;
+}
+
+.justify-center {
+	justify-content: center;
+}
+
+.items-center {
+	align-items: center;
+}
+
+.w-10 {
+	width: 2.5rem;
+}
+
+.h-10 {
+	height: 2.5rem;
+}
+
+.flex {
+	display: flex;
+
+}
+
+.text-\[\#4b9e5f\] {
+	--tw-text-opacity: 1;
+	color: rgb(75 158 95 / var(--tw-text-opacity));
+}
+
+.text-\[\#4f555e\] {
+	--tw-text-opacity: 1;
+	color: rgb(79 85 94 / var(--tw-text-opacity));
 }
 </style>
