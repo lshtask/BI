@@ -33,7 +33,7 @@
 import { reactive, ref } from 'vue';
 import { useRouter } from "vue-router";
 import { message } from 'ant-design-vue';
-import { fetchLogin } from "@/api/login";
+import { fetchGetLogin, fetchLogin } from "@/api/login";
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
 
 interface Emit {
@@ -52,11 +52,10 @@ const formState = reactive<FormState>({
   userPassword: '',
 });
 const onFinish = async (values: any) => {
-  const { data } = await fetchLogin(values)
-  localStorage.setItem('token', data?.id)
+//  const {data} =  await fetchLogin(values)
+  // await fetchGetLogin()
+  localStorage.setItem('token', '123123123123')
   router.push('/analyse')
-
-
 };
 
 const handleClick = () => {

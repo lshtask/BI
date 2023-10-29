@@ -2,15 +2,15 @@ import axios, { type AxiosResponse } from 'axios';
 import { message } from 'ant-design-vue';
 const request = axios.create({
   baseURL: import.meta.env.VITE_GLOB_API_URL,
+  withCredentials: true
 });
 
 request.interceptors.request.use((config: any) => {
   try {
     config.headers = {
       ...config.headers,
-      ContentType: 'application/json',
-      Accept: 'application/json',
-      Authorization: 'Bearer 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',
+      
+      Authorization: 'Bearer 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',
     };
   } catch (error) {}
   return config;

@@ -23,8 +23,7 @@
         </template>
         <a-avatar shape="square" size="small">
           <template #icon>
-            <!-- <UserOutlined /> -->
-            <img src="../../assets/hmx.JPG" alt="">
+            <UserOutlined />
           </template>
           {{ currentUser.nickname }}
         </a-avatar>

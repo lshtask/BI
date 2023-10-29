@@ -6,6 +6,8 @@
     <div class="main">
       <Card />
       <Card />
+      <Card />
+      <Card />
     </div>
   </div>
 </template>
@@ -22,9 +24,9 @@ const onSearch = (searchValue: string) => {
 <style scoped lang="less">
 .container {
   background: white;
-  margin: 10px 10px 0 10px;
-  height: 100%;
-  overflow: hidden;
+  margin: 10px;
+  height: calc(100vh - 70px);
+  overflow: scroll;
   background-image: url('../../assets/back.png');
 }
 

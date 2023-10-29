@@ -20,6 +20,7 @@ declare namespace Chat {
 		active: number | null
 		history: History[]
 		chat: { uuid: number; data: Chat[] }[]
+		open: boolean
 	}
 
 	interface ConversationRequest {

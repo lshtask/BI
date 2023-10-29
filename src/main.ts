@@ -7,11 +7,12 @@ import ProLayout, { PageContainer } from '@ant-design-vue/pro-layout';
 import NaiveUI from 'naive-ui';
 import { setupRouter } from './router';
 import App from './App.vue';
-
+import { useChatStore } from './store';
 async function bootstrap() {
   const app = createApp(App);
   await setupRouter(app);
-
+  const chatStore = useChatStore();
+  chatStore.init();
   app
     .use(ConfigProvider)
     .use(NaiveUI)

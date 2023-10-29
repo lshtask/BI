@@ -4,7 +4,7 @@
       <LeftAnalyse />
     </div>
     <div class="container_right">
-      <RightAnalyse />
+      <RightAnalyse  />
     </div>
   </div>
 </template>
@@ -16,10 +16,10 @@ import RightAnalyse from './RightAnalyse.vue';
 </script>
 <style lang="less" scoped>
 .container {
-  margin: 10px 10px 0 10px;
+  margin: 10px;
   display: flex;
   background: white;
-  height: 100vh;
+  height: calc(100vh - 70px);
   background-image: url('../../assets/back.png');
   &_left {
     width: 50%;

@@ -13,8 +13,9 @@ import { visualizer } from 'rollup-plugin-visualizer';
 // https://vitejs.dev/config/
 export default defineConfig(() => {
   const lifecycle = process.env.npm_lifecycle_event;
-  
+
   return {
+    // base: "/b/",
     plugins: [
       vue(),
       vueJsx(),
@@ -41,7 +42,9 @@ export default defineConfig(() => {
       }),
       PkgConfig(),
       OptimizationPersist(),
-      lifecycle === 'report' ? visualizer({ open: true, brotliSize: true, filename: 'report.html' }) : null,
+      lifecycle === 'report'
+        ? visualizer({ open: true, brotliSize: true, filename: 'report.html' })
+        : null,
     ],
     resolve: {
       alias: {
@@ -65,16 +68,31 @@ export default defineConfig(() => {
       port: 3002,
       open: false,
       proxy: {
-				'/api': {
+        '/api': {
           target: 'http://8.130.65.93:8001',
           changeOrigin: true, // 允许跨域
           // rewrite: path => path.replace('/api/', '/'),
         },
-				
       },
     },
     optimizeDeps: {
       include: ['@ant-design/icons-vue', 'ant-design-vue'],
     },
+    build: {
+			assetsDir: "BI",
+			reportCompressedSize: false,
+			rollupOptions: {
+				output: {
+					// 在文件名中添加哈希以强制浏览器重新下载
+					chunkFileNames: "assets/[name].[hash:8].js",
+					assetFileNames: "assets/[name].[hash:8].[ext]",
+				},
+			},
+			sourcemap: false,
+			commonjsOptions: {
+				ignoreTryCatch: false,
+			},
+			target: "es2015",
+		},
   };
 });

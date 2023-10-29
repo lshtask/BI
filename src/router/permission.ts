@@ -2,6 +2,9 @@ import type { Router } from 'vue-router';
 
 export default function setupPageGuard(router: Router) {
   router.beforeEach(async (to, from, next) => {
+    console.log('====================================');
+    console.log(document.cookie);
+    console.log('====================================');
     const authStore = localStorage.getItem('token');
     if (authStore  ) {
       try {
